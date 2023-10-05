@@ -10,9 +10,9 @@ const BookSchema = new Schema(
       type: String,
       required: true,
     },
-    bookCover: [
+    bookCover: 
       {
-        URLBookCover: {
+        URLbookCover: {
           type: String,
           required: true,
         },
@@ -21,8 +21,6 @@ const BookSchema = new Schema(
           required: true,
         },
       },
-    ],
-
     authorId: {
       type: Schema.Types.ObjectId,
       ref: "Author",

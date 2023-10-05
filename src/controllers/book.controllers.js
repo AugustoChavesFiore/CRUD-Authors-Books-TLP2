@@ -30,7 +30,7 @@ export const getOneBook = async(req,res) => {
 export const createNewBook = async(req,res) => {
   try {
     console.log(req.URLBookCover, req.publicId);
-    const book = await createBook({...req.body, bookCover:[req.URLBookCover, req.publicId]});
+    const book = await createBook({...req.body, bookCover: { URLbookCover: req.URLBookCover, publicId: req.publicId } });
     if (!book) {
         return res.status(404).json({message: "Something went wrong, book not created"});
     };
