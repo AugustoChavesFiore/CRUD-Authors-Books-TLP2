@@ -18,6 +18,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(fileUpload({
     createParentPath: true,
+    useTempFiles: true
 }))
 
 app.use("/api/author",authorRoutes);
