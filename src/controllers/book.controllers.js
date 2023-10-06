@@ -2,6 +2,7 @@ import { getBook, getBooks, createBook, updateBook, deleteBook } from "../models
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { deleteBookCover } from "./cloudinary.controller.js";
+import { deleteBookAuthor } from "../models/Author.model.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const getAllBooks = async(req,res) => {
   try {
@@ -63,6 +64,7 @@ export const deleteOneBook = async(req,res) => {
         return res.status(404).json({message: "Something went wrong, book not deleted"});
     };
     await deleteBookCover(book.bookCover.publicId);
+    await deleteBookAuthor(req.params.id, book.authorId._id)
     return res.status(200).json(book);
   } catch (error) {
     console.log(error);
