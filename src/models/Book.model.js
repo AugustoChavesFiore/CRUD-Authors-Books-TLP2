@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import { agregateBook } from "./Author.model.js";
+import { deleteBookCover } from "../controllers/cloudinary.controller.js";
+
 const BookSchema = new Schema(
   {
     title: {
@@ -36,7 +38,7 @@ export const Book = model("Book", BookSchema);
 
 export const getBooks = async () => {
   try {
-    const books = await Book.find().populate("authorId", "name");
+    const books = await Book.find().populate("authorId");
     if (!books) {
       return null;
     }
@@ -48,7 +50,7 @@ export const getBooks = async () => {
 };
 export const getBook = async (id) => {
   try {
-    const book = await Book.findById(id).populate("Author", "name");
+    const book = await Book.findById(id).populate("authorId");
     if (!book) {
       return null;
     }
@@ -79,7 +81,7 @@ export const createBook = async (bookNew) => {
 
 export const updateBook = async (id, book) => {
   try {
-    const updatedBook = await Book.findByIdAndUpdate(id, ...book);
+    const updatedBook = await Book.findByIdAndUpdate(id, {...book});
     if (!updatedBook) {
       return null;
     }

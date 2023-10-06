@@ -28,7 +28,7 @@ export const updateOneAuthor = async (req, res) => {
     try {
         const authorUpdated = await updateAuthor(req.params.id, req.body);
         if(!authorUpdated){
-            res.status(404).json({message: "Something went wrong, author not updated"});
+            return res.status(404).json({message: "Something went wrong, author not updated"});
         };
         return res.status(200).json(authorUpdated);
     } catch (error) {

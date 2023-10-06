@@ -1,6 +1,7 @@
 import { getBook, getBooks, createBook, updateBook, deleteBook } from "../models/Book.model.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { deleteBookCover } from "./cloudinary.controller.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const getAllBooks = async(req,res) => {
   try {
@@ -43,10 +44,12 @@ export const createNewBook = async(req,res) => {
 
 export const updateOneBook = async(req,res) => {
   try {
-    const book = await updateBook(req.params.id, req.body);
+    const book = await updateBook(req.params.id,{ ...req.body, bookCover: { URLbookCover: req.URLBookCover, publicId: req.publicId }});
+     await deleteBookCover(book.bookCover.publicId);
     if (!book) {
         return res.status(404).json({message: "Something went wrong, book not updated"});
     };
+    
     return res.status(200).json(book);
   } catch (error) {
     console.log(error);

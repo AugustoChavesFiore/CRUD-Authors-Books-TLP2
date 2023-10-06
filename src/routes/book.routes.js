@@ -6,7 +6,7 @@ const bookRoutes = Router();
 bookRoutes.get("/", getAllBooks);
 bookRoutes.get("/:id", getOneBook);
 bookRoutes.post("/",imgUploadCloudinary, createNewBook);
-bookRoutes.put("/:id", updateOneBook);
+bookRoutes.put("/:id", imgUploadCloudinary, updateOneBook);
 bookRoutes.delete("/:id", deleteOneBook);
 
 export { bookRoutes };

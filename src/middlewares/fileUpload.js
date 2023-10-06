@@ -1,7 +1,8 @@
 import path from "path";
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import cloudinary from '../configs/cloudinary.js';
+
+import { createBookCover } from "../controllers/cloudinary.controller.js";
 export const imgUpload = (req, res, next) => {
   if (!req.files) {
     return res.status(400).json({ message: "No files were uploaded" });
@@ -25,7 +26,7 @@ export const imgUploadCloudinary = async (req, res, next) => {
   }
   const file = req.files.bookCover;
   try {
-    const respon = await cloudinary.uploader.upload(file.tempFilePath);
+    const respon = await createBookCover(file);
     req.URLBookCover = respon.secure_url;
     req.publicId = respon.public_id;
     next();
@@ -34,3 +35,4 @@ export const imgUploadCloudinary = async (req, res, next) => {
     res.status(500).json({ message: "Server error image not uploaded" });
   }
 };
+

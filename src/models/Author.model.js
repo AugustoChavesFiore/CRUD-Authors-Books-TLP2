@@ -46,7 +46,7 @@ export const getAuthors = async() => {
 };
 export const getAuthor = async(id) => {
     try {
-        const author = await Author.findById(id).populate("booksId", "title","description");
+        const author = await Author.findById(id).populate("booksId");
         if (!author) {
             return null
         }
@@ -58,7 +58,7 @@ export const getAuthor = async(id) => {
 };
 export const updateAuthor = async(id, author) => {
     try {
-        const updatedAuthor = await Author.findByIdAndUpdate(id, ...author);
+        const updatedAuthor = await Author.findByIdAndUpdate(id, {...author}, {new: true});
         if (!updatedAuthor) {
             return null
         }
