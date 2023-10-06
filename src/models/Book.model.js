@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { agregateBook } from "./Author.model.js";
-import { deleteBookCover } from "../controllers/cloudinary.controller.js";
 
 const BookSchema = new Schema(
   {
@@ -10,6 +9,14 @@ const BookSchema = new Schema(
     },
     description: {
       type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: Number,
       required: true,
     },
     bookCover: 
@@ -38,7 +45,11 @@ export const Book = model("Book", BookSchema);
 
 export const getBooks = async () => {
   try {
-    const books = await Book.find().populate("authorId");
+    const books = await Book.find().populate("authorId",{
+      name: 1,
+      lastName: 1,
+      bibliography: 1,
+    });
     if (!books) {
       return null;
     }
@@ -50,7 +61,11 @@ export const getBooks = async () => {
 };
 export const getBook = async (id) => {
   try {
-    const book = await Book.findById(id).populate("authorId");
+    const book = await Book.findById(id).populate("authorId",{
+      name: 1,
+      lastName: 1,
+      bibliography: 1,
+    });
     if (!book) {
       return null;
     }
@@ -61,14 +76,14 @@ export const getBook = async (id) => {
   }
 };
 
-export const createBook = async (bookNew) => {
-  console.log(bookNew);
+export const createBook = async (authorId,bookNew) => {
+  console.log(bookNew, authorId);
   try {
-    const newBook = await Book.create(bookNew);
+    const newBook = await Book.create({...bookNew, authorId});
     if (!newBook) {
       return null;
     }
-    const agregate = await agregateBook(newBook.authorId, newBook._id);
+    const agregate = await agregateBook(authorId, newBook._id);
     if (!agregate) {
       return null;
     }

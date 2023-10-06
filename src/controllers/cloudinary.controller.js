@@ -13,7 +13,6 @@ export const createBookCover=async(file)=>{
     }
 }
 export const deleteBookCover=async(publicId)=>{
-    console.log("asd",publicId);
     try {
         const deletedBookCover = await cloudinary.uploader.destroy(publicId);
         if (!deletedBookCover) {

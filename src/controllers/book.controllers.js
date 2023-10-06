@@ -30,8 +30,7 @@ export const getOneBook = async(req,res) => {
 
 export const createNewBook = async(req,res) => {
   try {
-    console.log(req.URLBookCover, req.publicId);
-    const book = await createBook({...req.body, bookCover: { URLbookCover: req.URLBookCover, publicId: req.publicId } });
+    const book = await createBook(req.params.AuthorId,{...req.body, bookCover: { URLbookCover: req.URLBookCover, publicId: req.publicId } });
     if (!book) {
         return res.status(404).json({message: "Something went wrong, book not created"});
     };
@@ -45,11 +44,11 @@ export const createNewBook = async(req,res) => {
 export const updateOneBook = async(req,res) => {
   try {
     const book = await updateBook(req.params.id,{ ...req.body, bookCover: { URLbookCover: req.URLBookCover, publicId: req.publicId }});
-     await deleteBookCover(book.bookCover.publicId);
+     console.log(book);
     if (!book) {
         return res.status(404).json({message: "Something went wrong, book not updated"});
     };
-    
+    await deleteBookCover(book.bookCover.publicId);
     return res.status(200).json(book);
   } catch (error) {
     console.log(error);
@@ -63,6 +62,7 @@ export const deleteOneBook = async(req,res) => {
     if (!book) {
         return res.status(404).json({message: "Something went wrong, book not deleted"});
     };
+    await deleteBookCover(book.bookCover.publicId);
     return res.status(200).json(book);
   } catch (error) {
     console.log(error);

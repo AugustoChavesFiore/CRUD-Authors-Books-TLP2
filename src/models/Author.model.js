@@ -5,6 +5,14 @@ const AuthorSchema = new Schema({
     type: String,
     required: true,
   },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  bibliography: {
+    type: String,
+    required: true,
+  },
   booksId: [
     {
       type: Schema.Types.ObjectId,
@@ -34,7 +42,12 @@ export const newAuthor = async(author) => {
 };
 export const getAuthors = async() => {
     try {
-        const authors = await Author.find().populate("booksId");
+        const authors = await Author.find().populate("booksId",{
+            title: 1,
+            description: 1,
+            gender: 1,
+            year: 1,
+        });
         if (!authors) {
             return null
         }
@@ -46,7 +59,12 @@ export const getAuthors = async() => {
 };
 export const getAuthor = async(id) => {
     try {
-        const author = await Author.findById(id).populate("booksId");
+        const author = await Author.findById(id).populate("booksId",{
+            title: 1,
+            description: 1,
+            gender: 1,
+            year: 1,
+        });
         if (!author) {
             return null
         }
