@@ -76,7 +76,11 @@ export const showCoverBook = async(req,res) => {
     if (!book) {
         return res.status(404).json({message: "Something went wrong, bookCover not found"});
     };
-    const urlBookCover = sendImgServer(book.bookCover);
+    const urlBookCover = await sendImgServer(book.bookCover);
+    if (!urlBookCover) {
+        return res.status(404).json({message: "Something went wrong, bookCover not found"});
+    }
+    console.log('asd'+urlBookCover);
     return res.sendFile(urlBookCover);
   } catch (error) {
     console.log(error);

@@ -33,8 +33,10 @@ export const deleteImgServer =async(bookCover) => {
 };
 export const sendImgServer = async (bookCover) => {
   try {
-    const path = `${__dirname}../../public/img/${bookCover}.jpg`;
-    return path;
+    // const Path = `${__dirname}../../public/img/${bookCover}.jpg`;
+    const Path = path.join(__dirname, '..', '..', 'src/public', 'img', `${bookCover}.jpg`);
+    console.log(Path);
+    return Path;
   } catch (error) {
     console.log(error);
     return null;
