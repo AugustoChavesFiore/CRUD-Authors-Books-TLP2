@@ -115,3 +115,22 @@ export const agregateBook = async(id, book) => {
         
     }
 }
+export const deleteBookAuthor = async(id, book) => {
+    try {
+        const author= await Author.findById(id);
+        if (!author) {
+            return null
+        }
+        const index = author.booksId.indexOf(book);
+        if (index > -1) {
+            author.booksId.splice(index, 1);
+        }
+        await author.save();
+        if (!author) {
+            return null
+        }
+        return author
+    } catch (error) {
+        
+    }
+}

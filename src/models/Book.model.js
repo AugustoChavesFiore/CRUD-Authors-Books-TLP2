@@ -19,20 +19,14 @@ const BookSchema = new Schema(
       type: Number,
       required: true,
     },
-    bookCover: 
-      {
-        URLbookCover: {
-          type: String,
-          required: true,
-        },
-        publicId: {
-          type: String,
-          required: true,
-        },
-      },
+    bookCover: {
+      type: String,
+      required: true,
+    },
     authorId: {
       type: Schema.Types.ObjectId,
       ref: "Author",
+      required: true,
     },
   },
   {
@@ -45,7 +39,7 @@ export const Book = model("Book", BookSchema);
 
 export const getBooks = async () => {
   try {
-    const books = await Book.find().populate("authorId",{
+    const books = await Book.find().populate("authorId", {
       name: 1,
       lastName: 1,
       bibliography: 1,
@@ -61,7 +55,7 @@ export const getBooks = async () => {
 };
 export const getBook = async (id) => {
   try {
-    const book = await Book.findById(id).populate("authorId",{
+    const book = await Book.findById(id).populate("authorId", {
       name: 1,
       lastName: 1,
       bibliography: 1,
@@ -76,10 +70,10 @@ export const getBook = async (id) => {
   }
 };
 
-export const createBook = async (authorId,bookNew) => {
+export const createBook = async (authorId, bookNew) => {
   console.log(bookNew, authorId);
   try {
-    const newBook = await Book.create({...bookNew, authorId});
+    const newBook = await Book.create({ ...bookNew, authorId });
     if (!newBook) {
       return null;
     }
@@ -96,7 +90,7 @@ export const createBook = async (authorId,bookNew) => {
 
 export const updateBook = async (id, book) => {
   try {
-    const updatedBook = await Book.findByIdAndUpdate(id, {...book});
+    const updatedBook = await Book.findByIdAndUpdate(id, { ...book });
     if (!updatedBook) {
       return null;
     }

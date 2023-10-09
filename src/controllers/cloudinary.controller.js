@@ -12,9 +12,9 @@ export const createBookCover=async(file)=>{
         return null;
     }
 }
-export const deleteBookCover=async(publicId)=>{
+export const deleteBookCover=async(coverBook)=>{
     try {
-        const deletedBookCover = await cloudinary.uploader.destroy(publicId);
+        const deletedBookCover = await cloudinary.uploader.destroy(coverBook);
         if (!deletedBookCover) {
             return null;
         }

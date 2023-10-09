@@ -1,19 +1,20 @@
 import path from "path";
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 import { createBookCover } from "../controllers/cloudinary.controller.js";
+import { generatorUUID } from "../utils/GeneratorUUID.js";
 export const imgUpload = (req, res, next) => {
   if (!req.files) {
     return res.status(400).json({ message: "No files were uploaded" });
   }
   let file = req.files.bookCover;
-  let path = `${__dirname}../public/img/${file.name}`;
+  let name=generatorUUID();
+  let path = `${__dirname}../../public/img/${name}.jpg`;
   file.mv(path, (err) => {
     if (err) {
       return res.status(500).json({ message: err });
     }
-    req.bookCover = file.name;
+    req.bookCover = name;
     next();
   });
 };
