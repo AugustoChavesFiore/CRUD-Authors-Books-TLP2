@@ -32,6 +32,15 @@ const BookSchema = new Schema(
   {
     timestamps: true,
     versionKey: false,
+    toJSON: {virtuals: true},
+    virtuals: {
+      id: 0,
+      urlCover: {
+        get(){
+          return `${process.env.BASE_URL}:${process.env.PORT}/api/books/showCoverBook/${this._id}`;
+        }
+      }
+    }
   }
 );
 
@@ -53,6 +62,23 @@ export const getBooks = async () => {
     return null;
   }
 };
+export const CountBookGender = async (gender) => {
+  //use agregate to count
+  const count = await Book.aggregate([
+    {
+      $match: { gender: gender }
+    },
+    {
+      $group: {
+        _id: "$gender",
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  return count;
+  
+}
 export const getBook = async (id) => {
   try {
     const book = await Book.findById(id).populate("authorId", {
@@ -71,7 +97,6 @@ export const getBook = async (id) => {
 };
 
 export const createBook = async (authorId, bookNew) => {
-  console.log(bookNew, authorId);
   try {
     const newBook = await Book.create({ ...bookNew, authorId });
     if (!newBook) {
@@ -113,3 +138,5 @@ export const deleteBook = async (id) => {
     return null;
   }
 };
+
+

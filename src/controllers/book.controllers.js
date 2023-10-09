@@ -1,5 +1,5 @@
 import { deleteBookAuthor } from "../models/Author.model.js";
-import { getBook, getBooks, createBook, updateBook, deleteBook } from "../models/Book.model.js";
+import { getBook, getBooks, createBook, updateBook, deleteBook, CountBookGender } from "../models/Book.model.js";
 import { deleteImgServer, sendImgServer } from "./imageServer.controller.js";
 
 export const getAllBooks = async(req,res) => {
@@ -79,11 +79,26 @@ export const showCoverBook = async(req,res) => {
     if (!urlBookCover) {
         return res.status(404).json({message: "Something went wrong, bookCover not found"});
     }
-    console.log('asd'+urlBookCover);
     return res.sendFile(urlBookCover);
   } catch (error) {
     console.log(error);
     return res.status(500).json({message: "Something went wrong, server error"});
   };
     
+};
+
+export const genreBooksCount = async(req,res) => {
+  const genre = req.params.genre;
+  try {
+    const books= await CountBookGender(genre);
+    if (!books) {
+        return res.status(404).json({message: "Something went wrong, books not found"});
+    }
+    // return res.status(200).json({message:`books of genre ${req.params.genre}: ${books[0].count}`,books});
+    return res.status(200).json({[genre]:books[0].count});
+  }
+  catch (error) {
+    console.log(error);
+    return res.status(500).json({message: "Something went wrong, server error"});
+  };
 };
