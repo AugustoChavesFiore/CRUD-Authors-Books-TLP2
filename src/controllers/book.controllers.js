@@ -42,8 +42,7 @@ export const createNewBook = async(req,res) => {
 
 export const updateOneBook = async(req,res) => {
   try {
-    const book = await updateBook(req.params.id,{ ...req.body, bookCover});
-     console.log(book);
+    const book = await updateBook(req.params.id,{ ...req.body, bookCover: req.bookCover});
     if (!book) {
         return res.status(404).json({message: "Something went wrong, book not updated"});
     };

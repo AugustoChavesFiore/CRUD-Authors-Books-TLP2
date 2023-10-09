@@ -20,8 +20,8 @@ export const createImgServer = async (file) => {
 //borrar imagenes del servidor
 export const deleteImgServer =async(bookCover) => {
   try {
-    const path = `${__dirname}../../public/img/${bookCover}.jpg`;
-    const imgdelete =  await fsPromises.unlink(path);
+    const Path = path.join(__dirname, '..', '..', 'src/public', 'img', `${bookCover}.jpg`);
+    const imgdelete =  await fsPromises.unlink(Path);
     if (!imgdelete) {
       return null;
     }
@@ -35,7 +35,6 @@ export const sendImgServer = async (bookCover) => {
   try {
     // const Path = `${__dirname}../../public/img/${bookCover}.jpg`;
     const Path = path.join(__dirname, '..', '..', 'src/public', 'img', `${bookCover}.jpg`);
-    console.log(Path);
     return Path;
   } catch (error) {
     console.log(error);
